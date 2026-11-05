@@ -12,22 +12,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --side:#f7efdc; --side-dark:#f7efdc;
-  --bg:#fdf8ec; --bg-alt:#f9f1de; --ink:#1a1a1a; --text:#2a2a2a; --muted:#6b665d;
+  --bg:#fdf8ec; --bg-alt:#f9f1de; --card:#fffdf6; --ink:#1a1a1a; --text:#2a2a2a; --muted:#6b665d;
   --accent:#b5547a; --accent-soft:#fdebf1; --line:#eadfc6; --pink:#f6b3c8; --on-pink:#1a1a1a;
-  --nav:#58534a; --toggle-bg:#fffcf4;
-  --side-w:272px;
+  --nav:#58534a; --toggle-bg:#fffcf4; --header-bg:rgba(253,248,236,.88);
+  --head-h:64px;
 }
 @media (prefers-color-scheme: dark){
   :root{
-    --bg:#1c1519; --bg-alt:#231a1f; --ink:#f7ecf0; --text:#cbb8c0; --muted:#9d8891;
+    --bg:#1c1519; --bg-alt:#231a1f; --card:#261c21; --ink:#f7ecf0; --text:#cbb8c0; --muted:#9d8891;
     --accent:#e9a7bd; --accent-soft:#3a2530; --line:#33242b; --pink:#e7a0b8; --on-pink:#2a1d23;
-    --side:#2a1d23; --side-dark:#2a1d23;
-    --nav:#a58f99; --toggle-bg:#1c1519;
+    --nav:#a58f99; --toggle-bg:#1c1519; --header-bg:rgba(28,21,25,.88);
   }
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--head-h) + 8px)}
 body{margin:0;background:var(--bg);color:var(--text);
   font-family:'Mulish','Zen Kaku Gothic New',-apple-system,'Hiragino Sans',sans-serif;
   font-size:16px;line-height:1.8}
@@ -41,39 +39,44 @@ html[data-lang="ja"] li[data-l="ja"],html[data-lang="en"] li[data-l="en"],
 html[data-lang="ja"] div[data-l="ja"],html[data-lang="en"] div[data-l="en"],
 html[data-lang="ja"] p[data-l="ja"],html[data-lang="en"] p[data-l="en"]{display:block}
 
-/* sidebar */
-#sidebar{position:fixed;inset:0 auto 0 0;width:var(--side-w);background:var(--side);border-right:1px solid var(--line);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:24px 16px;z-index:30}
-.avatar{width:132px;height:132px;border-radius:36%;object-fit:cover;border:5px solid #fff;box-shadow:0 6px 16px rgba(209,66,122,.18);background:var(--accent-soft)}
-.side-name{display:none;color:var(--ink);font-weight:800}
-#nav{display:flex;flex-direction:column;gap:2px;align-items:center}
-#nav a{text-decoration:none;color:var(--nav);font-weight:800;font-size:.85rem;letter-spacing:.08em;padding:7px 20px;border-radius:999px;transition:background .2s,color .2s}
-#nav a:hover{color:var(--ink);text-decoration:none}
+/* top bar */
+#topbar{position:sticky;top:0;z-index:30;background:var(--header-bg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{max-width:1040px;margin:0 auto;height:var(--head-h);padding:0 24px;display:flex;align-items:center;gap:20px}
+.brand{font-family:'Zen Maru Gothic','Mulish',sans-serif;font-weight:900;color:var(--ink);text-decoration:none;white-space:nowrap}
+#nav{display:flex;gap:2px;flex:1;justify-content:center;overflow-x:auto;scrollbar-width:none}
+#nav::-webkit-scrollbar{display:none}
+#nav a{text-decoration:none;color:var(--nav);font-weight:800;font-size:.85rem;letter-spacing:.04em;padding:6px 14px;border-radius:999px;white-space:nowrap;transition:background .2s,color .2s}
+#nav a:hover{color:var(--ink)}
 #nav a.active{background:var(--pink);color:var(--on-pink)}
-.lang-toggle{display:flex;background:var(--toggle-bg);border:1px solid var(--line);border-radius:999px;padding:3px}
-.lang-toggle button{border:0;background:transparent;color:var(--muted);font:inherit;font-size:.8rem;font-weight:800;padding:5px 14px;border-radius:999px;cursor:pointer}
+.lang-toggle{display:flex;background:var(--toggle-bg);border:1px solid var(--line);border-radius:999px;padding:3px;flex:none}
+.lang-toggle button{border:0;background:transparent;color:var(--muted);font:inherit;font-size:.8rem;font-weight:800;padding:4px 12px;border-radius:999px;cursor:pointer}
 .lang-toggle button[aria-pressed="true"]{background:var(--pink);color:var(--on-pink)}
 
-/* content */
-main{margin-left:var(--side-w)}
-.sec{padding:84px 56px;border-top:1px solid var(--line);min-height:auto}
-.sec:first-child{border-top:0;min-height:100vh;display:flex;align-items:center}
+/* layout */
+.sec{padding:80px 24px;border-top:1px solid var(--line)}
 .sec:nth-child(even){background:var(--bg-alt)}
-.inner{max-width:820px;width:100%}
-h1{margin:0 0 .5em;font-family:'Zen Maru Gothic','Mulish',sans-serif;font-size:3.2rem;line-height:1.25;color:var(--ink);font-weight:900}
+.inner{max-width:860px;margin:0 auto}
+#about{padding:48px 24px 72px;border-top:0}
+#about .inner{max-width:1000px}
+
+/* hero card */
+.hero{position:relative;overflow:hidden;display:flex;align-items:center;gap:44px;padding:44px 48px;background:var(--card);border:1px solid var(--line);border-radius:36px;box-shadow:0 10px 30px rgba(180,120,140,.10)}
+.hero::before{content:"";position:absolute;right:-70px;top:-70px;width:240px;height:240px;border-radius:50%;background:var(--accent-soft);z-index:0}
+.hero > *{position:relative;z-index:1}
+.avatar{flex:none;width:200px;height:200px;border-radius:36%;object-fit:cover;border:6px solid #fff;box-shadow:0 8px 20px rgba(180,120,140,.2);background:var(--accent-soft)}
+h1{margin:0 0 .5em;font-family:'Zen Maru Gothic','Mulish',sans-serif;font-size:3rem;line-height:1.25;color:var(--ink);font-weight:900}
 h1 .alt{display:block;font-size:.45em;font-weight:700;color:var(--accent);letter-spacing:.08em;margin-top:.2em}
 h2{display:table;margin:0 0 1.8rem;font-family:'Zen Maru Gothic','Mulish',sans-serif;font-size:2rem;line-height:1.3;color:var(--ink);font-weight:900;padding:0 .2em;background:linear-gradient(transparent 62%,var(--accent-soft) 62%)}
 h3{margin:0;font-size:1.15rem;color:var(--ink);font-weight:800;line-height:1.5}
 .lead p{margin:0 0 .35rem}
 .lead b{color:var(--ink)}
-.social{display:flex;gap:14px;margin-top:28px}
+.social{display:flex;gap:12px;margin-top:22px}
 .social a{text-decoration:none;width:44px;height:44px;border-radius:14px;background:var(--accent-soft);color:var(--ink);display:grid;place-items:center;transition:transform .2s,background .2s,color .2s}
-.social a:hover{transform:translateY(-3px);background:var(--pink);color:var(--on-pink);text-decoration:none}
+.social a:hover{transform:translateY(-3px);background:var(--pink);color:var(--on-pink)}
 .social svg{width:22px;height:22px;fill:currentColor}
 
-/* resume-style items */
-.item{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;padding:18px 22px;background:var(--bg);border:1px solid var(--line);border-radius:18px}
-.sec:nth-child(even) .item{background:var(--bg)}
+/* items */
+.item{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;padding:18px 22px;background:var(--card);border:1px solid var(--line);border-radius:18px}
 .item:last-child{margin-bottom:0}
 .item .body{min-width:0}
 .item .sub{color:var(--accent);font-weight:700;margin:.1rem 0 .3rem}
@@ -81,6 +84,7 @@ h3{margin:0;font-size:1.15rem;color:var(--ink);font-weight:800;line-height:1.5}
 .item ul{padding-left:1.2em}
 .item .date{order:-1;align-self:flex-start;background:var(--accent-soft);color:var(--accent);font-weight:800;font-size:.8rem;padding:1px 12px;border-radius:999px;white-space:nowrap}
 .item .authors{color:var(--muted);font-size:.92rem}
+.en-title{color:var(--muted);font-size:.92rem;line-height:1.5;margin-top:3px}
 .badge{display:inline-block;background:var(--accent-soft);color:var(--accent);font-size:.75rem;font-weight:800;padding:1px 10px;border-radius:999px;margin-right:6px}
 
 .subhead{margin:38px 0 16px;font-size:1rem;font-weight:800;color:var(--accent);letter-spacing:.04em}
@@ -95,79 +99,82 @@ dl.facts{display:grid;grid-template-columns:max-content 1fr;gap:6px 22px;margin:
 dl.facts dt{color:var(--ink);font-weight:800}
 dl.facts dd{margin:0}
 
-footer{margin-left:var(--side-w);padding:28px 56px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line)}
+footer{padding:28px 24px;color:var(--muted);font-size:.85rem;text-align:center;border-top:1px solid var(--line)}
 
-@media (max-width:991px){
-  :root{--side-w:0px}
-  #sidebar{position:sticky;top:0;inset:auto;width:100%;flex-direction:row;justify-content:space-between;gap:10px;padding:8px 14px;height:auto}
-  .avatar{width:40px;height:40px;border-width:2px;flex:none}
-  .side-name{display:block;font-size:1rem;white-space:nowrap}
-  #nav{flex-direction:row;overflow-x:auto;flex:1;gap:0;justify-content:flex-start;scrollbar-width:none}
-  #nav::-webkit-scrollbar{display:none}
-  #nav a{padding:6px 10px;white-space:nowrap;font-size:.72rem}
-  .side-name{display:none}
-  main,footer{margin-left:0}
-  .sec{padding:56px 22px}
-  .sec:first-child{min-height:auto;padding-top:48px}
+@media (max-width:820px){
+  .brand{display:none}
+  .bar{padding:0 12px;gap:10px}
+  #nav{justify-content:flex-start}
+  #nav a{padding:6px 10px;font-size:.78rem}
+  .hero{flex-direction:column;text-align:center;padding:36px 22px;gap:24px}
+  .social{justify-content:center}
+  .avatar{width:150px;height:150px}
   h1{font-size:2.3rem}
   h2{font-size:1.7rem}
-  html{scroll-padding-top:60px}
+  .sec{padding:56px 18px}
+  #about{padding:32px 18px 56px}
 }
 @media (max-width:560px){
   .item{padding:16px 18px}
   dl.facts{grid-template-columns:1fr;gap:0}
   dl.facts dd{margin-bottom:8px}
-  footer{padding:24px 22px}
 }
 </style>
 </head>
 <body>
 
-<aside id="sidebar">
-  <img class="avatar" src="profile.png" alt="Mizuki Arai" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='profile.JPG'}else{this.style.visibility='hidden'}">
-  <nav id="nav">
-    <a href="#about">About</a>
-    <a href="#publications"><span data-l="ja">Publications</span><span data-l="en">Publications</span></a>
-    <a href="#experience">Experience</a>
-    <a href="#education">Education</a>
-    <a href="#skills">Skills</a>
-    <a href="#others">Others</a>
-    <a href="#contact">Contact</a>
-  </nav>
-  <div class="lang-toggle" role="group" aria-label="Language">
-    <button type="button" data-set="ja" aria-pressed="true">日本語</button>
-    <button type="button" data-set="en" aria-pressed="false">EN</button>
+<header id="topbar">
+  <div class="bar">
+    <a class="brand" href="#about">Mizuki Arai</a>
+    <nav id="nav">
+      <a href="#about">About</a>
+      <a href="#publications">Publications</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#skills">Skills</a>
+      <a href="#others">Others</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" data-set="ja" aria-pressed="true">日本語</button>
+      <button type="button" data-set="en" aria-pressed="false">EN</button>
+    </div>
   </div>
-</aside>
+</header>
 
 <main>
   <!-- ABOUT -->
   <section class="sec" id="about">
     <div class="inner">
-      <h1>
-        <span data-l="ja">新井 深月 <span class="alt">Mizuki Arai</span></span>
-        <span data-l="en">Mizuki Arai <span class="alt">新井 深月</span></span>
-      </h1>
-      <div class="lead">
-        <p data-l="ja"><b>お茶の水女子大学</b> 大学院 情報科学コース 修士2年（小林一郎研究室）</p>
-        <p data-l="en"><b>2nd-year Master's student</b>, Computer Science, Ochanomizu University (Kobayashi Lab)</p>
-        <p data-l="ja">産業技術総合研究所（AIST）人工知能研究センター RA</p>
-        <p data-l="en">Research Assistant (RA), AIRC, National Institute of Advanced Industrial Science and Technology (AIST)</p>
-        <p data-l="ja">研究分野：自然言語生成, Data-to-Text Generation, LLMの時系列解釈, 自動実況生成</p>
-        <p data-l="en">Research Area: NLG, Time-Series Interpretation by LLMs, Data-to-Text Generation, Commentary Generation</p>
-      </div>
-      <div class="social">
-        <a href="https://github.com/mizukichi-dev" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
-        <a href="https://www.linkedin.com/in/mizukichi00" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a>
-        <a href="mailto:g2120503@is.ocha.ac.jp" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5v-13zm2.4.5L12 11.9 19.6 6H4.4zM20 7.9l-7.4 5.7a1 1 0 0 1-1.2 0L4 7.9V18h16V7.9z"/></svg></a>
+      <div class="hero">
+        <img class="avatar" src="profile.png" alt="Mizuki Arai" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='profile.JPG'}else{this.style.visibility='hidden'}">
+        <div>
+          <h1>
+            <span data-l="ja">新井 深月 <span class="alt">Mizuki Arai</span></span>
+            <span data-l="en">Mizuki Arai <span class="alt">新井 深月</span></span>
+          </h1>
+          <div class="lead">
+            <p data-l="ja"><b>お茶の水女子大学</b> 大学院 情報科学コース 修士2年（小林一郎研究室）</p>
+            <p data-l="en"><b>2nd-year Master's student</b>, Computer Science, Ochanomizu University (Kobayashi Lab)</p>
+            <p data-l="ja">産業技術総合研究所（AIST）人工知能研究センター RA</p>
+            <p data-l="en">Research Assistant (RA), AIRC, National Institute of Advanced Industrial Science and Technology (AIST)</p>
+            <p data-l="ja">研究分野：自然言語生成, Data-to-Text Generation, LLMの時系列解釈, 自動実況生成</p>
+            <p data-l="en">Research Area: NLG, Time-Series Interpretation by LLMs, Data-to-Text Generation, Commentary Generation</p>
+          </div>
+          <div class="social">
+            <a href="https://github.com/mizukichi-dev" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
+            <a href="https://www.linkedin.com/in/mizukichi00" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a>
+            <a href="mailto:g2120503@is.ocha.ac.jp" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5v-13zm2.4.5L12 11.9 19.6 6H4.4zM20 7.9l-7.4 5.7a1 1 0 0 1-1.2 0L4 7.9V18h16V7.9z"/></svg></a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- RESEARCH -->
+  <!-- PUBLICATIONS -->
   <section class="sec" id="publications">
     <div class="inner">
-      <h2><span data-l="ja">Publications</span><span data-l="en">Publications</span></h2>
+      <h2>Publications</h2>
 
       <h4 class="subhead first"><span data-l="ja">国際学会（査読あり）</span><span data-l="en">International Conferences (Refereed)</span></h4>
 
@@ -190,41 +197,40 @@ footer{margin-left:var(--side-w);padding:28px 56px;color:var(--muted);font-size:
       </div>
 
       <h4 class="subhead"><span data-l="ja">国内会議・研究会</span><span data-l="en">Domestic Conferences &amp; Workshops</span></h4>
- 
+
       <div class="item">
         <div class="body">
-          <h3><a href="https://doi.org/10.11517/pjsai.JSAI2026.0_1YinA57" target="_blank" rel="noopener noreferrer"><span class="todo">大規模言語モデルにおける数列理解の挙動分析: 最大値に着目した内部状態ベクトルの解析</span></a></h3>
+          <h3><a href="https://doi.org/10.11517/pjsai.JSAI2026.0_1YinA57" target="_blank" rel="noopener noreferrer">大規模言語モデルにおける数列理解の挙動分析: 最大値に着目した内部状態ベクトルの解析</a></h3>
           <div class="en-title">Analyzing Numerical Sequence Understanding in Large Language Models: A Hidden Vector Analysis Focusing on Maximum Values</div>
           <div class="authors">Arai, M., Ishigaki, T., Miyao, Y., Takamura, H., &amp; Kobayashi, I.</div>
           <p><span class="badge">JSAI2026</span><span data-l="ja">群馬</span><span data-l="en">Gunma</span></p>
         </div>
         <div class="date"><span data-l="ja">2026年6月</span><span data-l="en">Jun 2026</span></div>
       </div>
- 
+
       <div class="item">
         <div class="body">
-          <h3><a href="https://www.anlp.jp/proceedings/annual_meeting/2026/pdf_dir/TS4-1.pdf" target="_blank" rel="noopener noreferrer"><span class="todo">大規模言語モデルの数値系列解釈メカニズムの解明に向けて：
-            プロンプトの有無が順位情報表現に与える影響</span></a></h3>
+          <h3><a href="https://www.anlp.jp/proceedings/annual_meeting/2026/pdf_dir/TS4-1.pdf" target="_blank" rel="noopener noreferrer">大規模言語モデルの数値系列解釈メカニズムの解明に向けて：プロンプトの有無が順位情報表現に与える影響</a></h3>
           <div class="en-title">Understanding How Large Language Models Interpret Numerical Sequences: Effects of Prompting on Rank Information Encoding</div>
           <div class="authors">Arai, M., Ishigaki, T., Miyao, Y., Takamura, H., &amp; Kobayashi, I.</div>
           <p><span class="badge">NLP2026</span><span data-l="ja">宇都宮</span><span data-l="en">Utsunomiya</span></p>
         </div>
         <div class="date"><span data-l="ja">2026年3月</span><span data-l="en">Mar 2026</span></div>
       </div>
- 
+
       <div class="item">
         <div class="body">
-          <h3><a href="https://www.anlp.jp/proceedings/annual_meeting/2025/pdf_dir/P2-1.pdf" target="_blank" rel="noopener noreferrer"><span class="todo">プロンプトの言語による数値時系列解釈能力の変化</span></a></h3>
+          <h3><a href="https://www.anlp.jp/proceedings/annual_meeting/2025/pdf_dir/P2-1.pdf" target="_blank" rel="noopener noreferrer">プロンプトの言語による数値時系列解釈能力の変化</a></h3>
           <div class="en-title">Differences in the Numerical Interpretation Ability of LLMs Depending on Prompt Language</div>
           <div class="authors">Arai, M., Ishigaki, T., Miyao, Y., Takamura, H., &amp; Kobayashi, I.</div>
           <p><span class="badge">NLP2025</span><span data-l="ja">長崎</span><span data-l="en">Nagasaki</span></p>
         </div>
         <div class="date"><span data-l="ja">2025年3月</span><span data-l="en">Mar 2025</span></div>
       </div>
- 
+
       <div class="item">
         <div class="body">
-          <h3><a href="https://ipsj.ixsq.nii.ac.jp/records/241661" target="_blank" rel="noopener noreferrer"><span class="todo">大規模言語モデルの数値時系列解釈能力の検証</span></a></h3>
+          <h3><a href="https://ipsj.ixsq.nii.ac.jp/records/241661" target="_blank" rel="noopener noreferrer">大規模言語モデルの数値時系列解釈能力の検証</a></h3>
           <div class="en-title">Examining Large Language Models' ability to interpret numerical data</div>
           <div class="authors">Arai, M., Ishigaki, T., Miyao, Y., Takamura, H., &amp; Kobayashi, I.</div>
           <p><span class="badge">NL研</span><span data-l="ja">名古屋</span><span data-l="en">Nagoya</span></p>
@@ -398,13 +404,13 @@ footer{margin-left:var(--side-w);padding:28px 56px;color:var(--muted);font-size:
         </div></div>
       <div class="group"><h4><span data-l="ja">課外活動</span><span data-l="en">Activities</span></h4>
         <p style="margin:0" data-l="ja">東京大学吹奏楽団 アルトサックス（2022年5月 – 2025年3月）</p>
-        <p style="margin:0" data-l="en">Alto Saxophone, the University of Tokyo Wind Ensemble (May 2022 – Mar 2025)</p></div>
+        <p style="margin:0" data-l="en">Alto Saxophone, the University of Tokyo Wind Ensemble (May 2022 – Mar 2025)</p>
         <p style="margin:0" data-l="ja">東京大学サックス同好会 アルトサックス（2025年5月 – 現在）</p>
-        <p style="margin:0" data-l="en">Alto Saxophone, Saxophone Club (May 2026 – present)</p></div>
+        <p style="margin:0" data-l="en">Alto Saxophone, Saxophone Club (May 2025 – present)</p></div>
       <div class="group"><h4><span data-l="ja">興味</span><span data-l="en">Interests</span></h4>
         <div class="chips">
-            <span class="chip"><span data-l="ja">LLM応用</span><span data-l="en">LLM Applications</span></span>
-            <span class="chip"><span data-l="ja">LLMの解釈性</span><span data-l="en">LLM Interpretability</span></span>
+          <span class="chip"><span data-l="ja">LLM応用</span><span data-l="en">LLM Applications</span></span>
+          <span class="chip"><span data-l="ja">LLMの解釈性</span><span data-l="en">LLM Interpretability</span></span>
         </div></div>
     </div>
   </section>
@@ -450,7 +456,9 @@ footer{margin-left:var(--side-w);padding:28px 56px;color:var(--muted);font-size:
   links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
   function activate(id){
     links.forEach(function(a){a.classList.remove('active')});
-    if(map[id]) map[id].classList.add('active');
+    var a=map[id];
+    if(a){ a.classList.add('active');
+      if(a.scrollIntoView){ try{ a.scrollIntoView({inline:'center',block:'nearest'}) }catch(e){} } }
   }
   activate('about');
   if('IntersectionObserver' in window){
